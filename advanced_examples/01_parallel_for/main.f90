@@ -10,7 +10,7 @@
 ! ****************************************************************************
 
 program main
-  use kokkos_fortran_wrapper, only : kokkos_initialize, kokkos_finalize
+  use kokkos_fortran_wrappers, only : kokkos_initialize, kokkos_finalize
   use parallel_for_example_module, only : array_setup, parallel_for_example, array_deallocation
   implicit none
   ! MPI-related variables
