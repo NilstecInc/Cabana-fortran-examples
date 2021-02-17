@@ -72,6 +72,48 @@ int C_FUNC(int sp, int num_particle) \
 
 #endif
 
+
+
+#if USE_GPU==1
+#define PARTICLE_OP_REDUCTION(C_FUNC,F_FUNC) \
+  extern "C" double C_FUNC( int sp, int np ); \
+  extern "C" KOKKOS_FUNCTION double F_FUNC(local_particle_struct_t*, int, int); \
+  double C_FUNC(int start_pt, int num_particle) \
+  { \
+      auto* p_loc = (local_particle_struct_t*)(particles->data()); \
+      int num_vecs = (num_particle + VEC_LEN - 1) / VEC_LEN; \
+      double result = 0.; \
+      auto local_lambda = KOKKOS_LAMBDA( const int idx, double &valueToUpdate ) \
+      { \
+         valueToUpdate += F_FUNC(p_loc, num_vecs, idx); \
+      }; \
+      Kokkos::RangePolicy<ExecutionSpace> range_policy_vec( start_pt-1, num_particle ); \
+      Kokkos::parallel_reduce( range_policy_vec, local_lambda, result ); \
+      return result; \
+  }
+
+#else
+#define PARTICLE_OP_REDUCTION(C_FUNC,F_FUNC) \
+extern "C" double C_FUNC( int sp, int np ); \
+extern "C" KOKKOS_FUNCTION double F_FUNC(local_particle_struct_t*, int, int); \
+int C_FUNC(int sp, int num_particle) \
+{ \
+    auto* p_loc = (local_particle_struct_t*)(particles->data()); \
+    int num_vecs = (num_particle + VEC_LEN - 1) / VEC_LEN; \
+    double result = 0.; \
+    int start_vec = (sp - 1) / VEC_LEN; \
+    int one_vector = 1; \
+    auto local_lambda = KOKKOS_LAMBDA( const int idx, double &valueToUpdate ) \
+    { \
+       valueToUpdate += F_FUNC(p_loc+idx, one_vector, idx * VEC_LEN); \
+    }; \
+    Kokkos::RangePolicy<ExecutionSpace> range_policy_vec( start_vec, num_vecs ); \
+    Kokkos::parallel_reduce( range_policy_vec, local_lambda, result ); \
+    return result; \
+}
+
+#endif
+
 // Define MISC_OP
 // It is convenient to launch parallel_for operations that have nothing to do with particles.
 //   e.g. in sorting, since we need to loop over sorting bins at some point.
