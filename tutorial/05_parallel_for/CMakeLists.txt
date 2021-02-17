@@ -1,13 +1,15 @@
 add_executable(ForParallelFor Fortran_main.f90 Fortran_kernels.F90 parallel_for_example.cpp)
 target_link_libraries(ForParallelFor Cabana::cabanacore)
 add_test(NAME Fortran_tutorial_05 COMMAND ForParallelFor)
-set_property(TARGET ForParallelFor PROPERTY LINKER_LANGUAGE CXX)
+set_property(TARGET ForParallelFor PROPERTY LINKER_LANGUAGE Fortran)
 
 if (("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "PGI") AND ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "PGI"))
   if( Kokkos_ENABLE_CUDA )
     target_compile_definitions(ForParallelFor PUBLIC -DUSE_GPU=1)
-    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -ta=tesla:cuda9.0 -Minfo=accel -Mcuda=cuda9.0")
+    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -acc=gpu -cuda -gpu=cc70,cuda11.1,rdc")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --relocatable-device-code=true")
+    set(CMAKE_EXE_LINKER_FLAGS "-acc=gpu -cuda -gpu=cc70,cuda11.1,rdc")
+
   elseif( Kokkos_ENABLE_OPENMP )
     target_compile_definitions(ForParallelFor PUBLIC -DUSE_GPU=0)
     set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -ta=multicore -mp")
@@ -19,7 +21,7 @@ if (("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "PGI") AND ("${CMAKE_CXX_COMPILER_I
   if(CMAKE_VERSION VERSION_LESS_EQUAL 3.13)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pgc++libs")
   else()
-    target_link_options(ForParallelFor "-pgc++libs")
+    target_link_options(ForParallelFor PUBLIC "-pgc++libs")
   endif()
 else()
     message("Only PGI is supported for compiling fortran cuda code. Right now
