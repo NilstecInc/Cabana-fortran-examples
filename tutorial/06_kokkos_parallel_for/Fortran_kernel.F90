@@ -17,7 +17,7 @@
 module printHello
 contains
 #if USE_GPU == 1
-  attributes(device) &
+  attributes(host, device) &
 #endif
   subroutine print_hello (i) BIND(C,name='print_hello')
     USE, INTRINSIC :: ISO_C_BINDING, only: c_int

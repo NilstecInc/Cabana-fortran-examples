@@ -62,7 +62,7 @@ module scatter_module
 
   !!!!!!!!!!!! KERNEL !!!!!!!!!!!!!!
 
-  ATTR_DEVICE
+  ATTR_HOST_DEVICE
   subroutine particle_scatter_f(part, n_vectors, i_particle) BIND(C,name='particle_scatter_f')
     USE, INTRINSIC :: ISO_C_BINDING
     use ptl_module, only : ptl_type, ptl_type_single
@@ -94,7 +94,7 @@ module scatter_module
 
   end subroutine particle_scatter_f
 
-  ATTR_DEVICE
+  ATTR_HOST_DEVICE
   integer function determine_cell(gid)
     use grid_module, only : n_cells
     integer, intent(in) :: gid

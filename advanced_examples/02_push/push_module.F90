@@ -32,7 +32,7 @@ module push_module
 
   !!!!!!!!!!!! KERNEL !!!!!!!!!!!!!!
 
-  ATTR_DEVICE
+  ATTR_HOST_DEVICE
   subroutine particle_push_f(part, n_vectors, i_particle) BIND(C,name='particle_push_f')
     USE, INTRINSIC :: ISO_C_BINDING
     use ptl_module, only : ptl_type, ptl_type_single

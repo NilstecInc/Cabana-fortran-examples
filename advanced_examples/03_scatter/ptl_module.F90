@@ -71,7 +71,7 @@ module ptl_module
 
   !!!!!!!!!!!! KERNELS !!!!!!!!!!!!!!
 
-  ATTR_DEVICE
+  ATTR_HOST_DEVICE
   subroutine particle_initialization_f(part, n_vectors, i_particle) BIND(C,name='particle_initialization_f')
     USE, INTRINSIC :: ISO_C_BINDING
     implicit none
@@ -106,7 +106,7 @@ module ptl_module
     call convert_from_single_ptl(part,one_part, s_vec,a_vec)
   end subroutine
 
-  ATTR_DEVICE
+  ATTR_HOST_DEVICE
   subroutine convert_to_single_ptl(part,one_part, s_vec,a_vec)
     USE, INTRINSIC :: ISO_C_BINDING
     implicit none
@@ -127,7 +127,7 @@ module ptl_module
     enddo
   end subroutine convert_to_single_ptl
 
-  ATTR_DEVICE
+  ATTR_HOST_DEVICE
   subroutine convert_from_single_ptl(part,one_part, s_vec,a_vec)
     USE, INTRINSIC :: ISO_C_BINDING
     implicit none
@@ -148,7 +148,7 @@ module ptl_module
     enddo
   end subroutine
 
-  ATTR_DEVICE
+  ATTR_HOST_DEVICE
   subroutine AoS_indices(i_item,s_vec,a_vec)
     USE, INTRINSIC :: ISO_C_BINDING
     implicit none

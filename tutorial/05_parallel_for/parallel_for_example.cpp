@@ -39,9 +39,9 @@ extern "C"
     void parallelForExample();
 
     /* wirtten in Fortran; called by C++ */
-    void initialization( local_data_struct_t *, int );
-    void kernel_1( local_data_struct_t *, int, int );
-    void kernel_2( local_data_struct_t *, int, int, int, int );
+    KOKKOS_FUNCTION void initialization( local_data_struct_t *, int );
+    KOKKOS_FUNCTION void kernel_1( local_data_struct_t *, int, int );
+    KOKKOS_FUNCTION void kernel_2( local_data_struct_t *, int, int, int, int );
 }
 
 void parallelForExample()

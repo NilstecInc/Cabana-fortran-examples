@@ -3,7 +3,7 @@ module update_phase_module
   implicit none
   contains
 
-  ATTR_DEVICE
+  ATTR_HOST_DEVICE
   subroutine update_phase(ph,gid)
     real(8), intent(inout) :: ph(:,:)
     integer, intent(in) :: gid(:)

@@ -17,7 +17,7 @@
 #endif
 
 #if USE_GPU == 1
-  attributes(device) &
+  attributes(host, device) &
 #endif
   SUBROUTINE initialization(part,num_part) BIND(C)
   USE, INTRINSIC :: ISO_C_BINDING
@@ -58,7 +58,7 @@ end SUBROUTINE initialization
 
 
 #if USE_GPU == 1
-  attributes(device) &
+  attributes(host, device) &
 #endif
 SUBROUTINE kernel_1(part,s,a) BIND(C)
   USE, INTRINSIC :: ISO_C_BINDING
@@ -80,7 +80,7 @@ SUBROUTINE kernel_1(part,s,a) BIND(C)
 end SUBROUTINE kernel_1
 
 #if USE_GPU == 1
-  attributes(device) &
+  attributes(host, device) &
 #endif
 SUBROUTINE kernel_2(part,s0,a0,s1,a1) BIND(C)
   USE, INTRINSIC :: ISO_C_BINDING

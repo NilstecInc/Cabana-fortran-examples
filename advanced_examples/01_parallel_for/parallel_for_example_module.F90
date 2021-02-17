@@ -50,7 +50,7 @@ module parallel_for_example_module
   ! Each parallel_for kernel must be accounted for in two places:
   !   1) In some module, e.g. this module, we must add a MISC_OP_INTERFACE, which defines the name of the C++ subroutine to be called by fortrain main
   !   2) In misc_ops.h, the routine must be defined with a MISC_OP macro, which links the C++ subroutine to the internal fortran kernel to be performed
-  ATTR_DEVICE
+  ATTR_HOST_DEVICE
   subroutine parallel_for_example_f(i_particle) BIND(C,name='parallel_for_example_f')
     USE, INTRINSIC :: ISO_C_BINDING
     implicit none

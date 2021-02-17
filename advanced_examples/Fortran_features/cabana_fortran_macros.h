@@ -4,6 +4,7 @@
 
 #if USE_GPU == 1
 #define ATTR_DEVICE attributes(device) &
+#define ATTR_HOST_DEVICE attributes(host, device) &
 #define ATTR_HOST attributes(host) &
 #define ATTR_GLOBAL attributes(global) &
 #define ATTR_SHARED attributes(shared) &
@@ -30,6 +31,7 @@
 
 #else
 #define ATTR_DEVICE
+#define ATTR_HOST_DEVICE
 #define ATTR_HOST
 #define ATTR_GLOBAL
 #define ATTR_SHARED

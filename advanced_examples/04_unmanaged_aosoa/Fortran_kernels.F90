@@ -20,7 +20,7 @@
 #if USE_GPU == 1
   attributes(global) &
   SUBROUTINE set(ns,p1)
-  
+  use, intrinsic :: ISO_C_BINDING
   implicit none
   !The Fortran derived type has the same memory layout as the C struct defined by
   ! struct local_data_struct_t {     
@@ -46,8 +46,12 @@
  
   SUBROUTINE initialization(part,n_soa, num_part) BIND(C)
   USE cudafor
-  use simpleOps_m
+!  use simpleOps_m
   implicit none
+    type, BIND(C) :: ptl_type
+       real (C_DOUBLE) :: d0(VECLEN)
+       real (C_DOUBLE) :: d1(VECLEN)
+    end type ptl_type
   integer a,s
 
   !Declared as AoSoA
