@@ -72,6 +72,11 @@ using DataTypes = Cabana::MemberTypes<double[3][3], float[4], int>;
 /* Create the SoA. */
 using SoaTYPE = Cabana::SoA<DataTypes, VECLEN>;
 
+static_assert(!std::is_pod<SoaTYPE>(), "");
+
+static_assert(std::is_trivial<SoaTYPE>(), "");
+static_assert(!std::is_standard_layout<SoaTYPE>(), "");
+
 /* Create a pointer of SoaType, which will be used in Fortran */
 SoaTYPE *particle = new SoaTYPE;
 

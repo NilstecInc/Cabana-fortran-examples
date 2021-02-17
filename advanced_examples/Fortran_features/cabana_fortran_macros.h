@@ -55,7 +55,7 @@
 
 #endif
 
-
+! Fortran only allows for 132 characters on a line, so this will not work
 #define PARTICLE_OP_INTERFACE(C_FUNC) \
   interface; \
      integer(C_INT) function C_FUNC(sp, num_particle) bind(C, name=#C_FUNC); \

@@ -59,11 +59,11 @@ int C_FUNC(int sp, int num_particle) \
 { \
     auto* p_loc = (local_particle_struct_t*)(particles->data()); \
     int num_vecs = (num_particle + VEC_LEN - 1) / VEC_LEN; \
-    int start_vec = sp / VEC_LEN - 1; \
+    int start_vec = (sp - 1) / VEC_LEN; \
     int one_vector = 1; \
     auto local_lambda = KOKKOS_LAMBDA( const int idx ) \
     { \
-       F_FUNC(p_loc+idx, one_vector, idx); \
+       F_FUNC(p_loc+idx, one_vector, idx * VEC_LEN); \
     }; \
     Kokkos::RangePolicy<ExecutionSpace> range_policy_vec( start_vec, num_vecs ); \
     Kokkos::parallel_for( range_policy_vec, local_lambda, "example_op" ); \
